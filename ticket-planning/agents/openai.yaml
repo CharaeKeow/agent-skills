@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ticket Planning"
+  short_description: "Clarify tickets before planning implementation"
+  default_prompt: "Use $ticket-planning to understand this ticket, identify gaps, and prepare a handoff plan."
