@@ -47,14 +47,16 @@ Assume the author may have context you do not. When something looks odd but may 
 
 ## Output Shape
 
-Lead with findings, ordered by severity. Use file and line references when possible.
+Lead with findings, ordered by severity. Use a numbered list for findings so each issue has a stable reference the user can reply to, even when multiple findings share the same priority. Use file and line references when possible.
 
 Use this structure:
 
 ```markdown
 **Findings**
-- [P1] Title - `path/to/file.ts:42`
-  Explain the problem, why it matters, and the smallest useful fix.
+1. [P1] Title - `path/to/file.ts:42`
+   Explain the problem, why it matters, and the smallest useful fix.
+2. [P2] Another title - `path/to/other-file.ts:84`
+   Explain the problem, why it matters, and the smallest useful fix.
 
 **Questions**
 - What should happen when ...?
