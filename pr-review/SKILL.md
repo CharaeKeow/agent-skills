@@ -1,6 +1,6 @@
 ---
 name: pr-review
-description: Review pull requests, local diffs, completed ticket code, or a colleague's code with a practical senior-engineering lens. Use when Codex is asked to review PRs or code changes for readability, maintainability, elegance, simplification opportunities, hacky patterns, best-practice issues, React pitfalls such as unnecessary effects or over-memoization, comment quality, and clarification questions for the author.
+description: Review pull requests, local diffs, completed ticket code, or a colleague's code with a practical senior-engineering lens. Use when asked to review PRs or code changes for readability, maintainability, elegance, simplification opportunities, hacky patterns, best-practice issues, React pitfalls such as unnecessary effects or over-memoization, comment quality, and clarification questions for the author.
 ---
 
 # PR Review
@@ -28,19 +28,24 @@ Assume the author may have context you do not. When something looks odd but may 
    - Prefer simple direct code over cleverness.
    - Flag duplication only when it creates real maintenance risk or obscures intent.
    - Suggest simplification when the current design is more complex than the behavior requires.
+   - Look for hacky workarounds, needless layers, round trips, or abstractions that obscure the domain or make ordinary changes harder. Explain the concrete maintenance cost; do not report taste alone.
 
-4. Review for best practices without cargo culting:
+4. Review types for preserved evidence:
+   - Check for known-value widening: a value with a useful known type is widened to `unknown`, `object`, an open dictionary, or another broad type, then immediately narrowed or asserted back to the information already available. Prefer preserving the precise type instead of discarding and reconstructing it.
+   - Treat this as a smell to investigate, not a blanket ban. Broad types and runtime validation are appropriate at genuinely untrusted boundaries; confirm where the value comes from and whether the widening serves a real boundary before reporting it.
+   - Also check for avoidable `any`, unsafe casts, unclear generics, weak null handling, and type shapes that hide real invariants.
+
+5. Review for best practices without cargo culting:
    - In React, check for unnecessary `useEffect`, derived state stored in state, stale closures, overuse of `useMemo` / `useCallback`, unstable dependencies, and effects doing work that could happen during render or in event handlers.
-   - In TypeScript, check for avoidable `any`, unsafe casts, unclear generics, weak null handling, and type shapes that hide real invariants.
    - In API/database code, check validation boundaries, transaction safety, permission checks, idempotency, and error behavior.
    - Match the repo's existing conventions unless there is a concrete reason to diverge.
 
-5. Review comments:
-   - Flag comments that restate obvious code, drift from behavior, or excuse confusing implementation.
-   - Suggest comments where intent, business rule, ordering constraint, migration caveat, or non-obvious tradeoff would otherwise be hard to recover.
-   - Prefer improving names or structure over adding comments when that would make the intent self-evident.
+6. Review comments:
+   - Check whether each changed comment earns its place: flag comments that merely narrate obvious code, repeat a name or expression, are stale, or compensate for confusing code.
+   - Keep comments that explain intent, business rules, ordering constraints, migration caveats, or non-obvious tradeoffs that the code cannot express clearly.
+   - Prefer improving names or structure over adding explanatory comments when that makes the intent self-evident. Do not treat comment count alone as a defect.
 
-6. Produce clarification questions:
+7. Produce clarification questions:
    - Ask concise questions for decisions that may be intentional but are not explained by the code or PR context.
    - Focus questions on product behavior, data assumptions, performance tradeoffs, rollout risk, edge cases, and why a particular design was chosen.
    - Do not disguise required fixes as questions. If something is demonstrably wrong, state it as a finding.
