@@ -26,7 +26,8 @@ Assume the author may have context you do not. When something looks odd but may 
 3. Review for readability and maintainability:
    - Ask whether the code is easy to scan, locally understandable, and named in a way that explains intent.
    - Prefer simple direct code over cleverness.
-   - Flag duplication only when it creates real maintenance risk or obscures intent.
+   - Flag duplication only when it creates real maintenance risk or obscures intent. Small duplication is acceptable when extraction adds more indirection than clarity.
+   - Evaluate extraction by what it helps the reader understand, not just the repetition it removes. A shared constant, helper, or component should name a meaningful concept, hide complexity, or keep a decision consistent across callers. Treat this as a judgment call; shared class strings and thin wrappers are not findings by themselves.
    - Suggest simplification when the current design is more complex than the behavior requires.
    - Look for hacky workarounds, needless layers, round trips, or abstractions that obscure the domain or make ordinary changes harder. Explain the concrete maintenance cost; do not report taste alone.
 
