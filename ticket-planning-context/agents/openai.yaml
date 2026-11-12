@@ -1,0 +1,6 @@
+interface:
+  display_name: Ticket Planning Context
+  short_description: Turn ticket context into an implementation-ready plan
+  default_prompt: Understand all available context for this ticket, discuss unresolved decisions, and produce a focused implementation plan before coding.
+policy:
+  allow_implicit_invocation: false
